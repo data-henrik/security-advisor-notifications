@@ -30,17 +30,19 @@ def main(args):
 	}]
     # Loop over all issue and create section in Slack message
     for issue in args["decoded"]["security-advisor-alerts"]:
-        data.append(
-	    {
-		"type": "section",
-		"text": {
-			"type": "mrkdwn",
-			"text": "*New issue*\nURL: "+issue["issuer-url"]+
+        # Not all notifications contain details
+        if "issuer-url" in issue:
+            data.append(
+	            {
+		            "type": "section",
+		            "text": {
+			            "type": "mrkdwn",
+			            "text": "*New issue*\nURL: "+issue["issuer-url"]+
                            "\nAccount: "+issue["payload"]["context"]["account_id"]+
                            "\nService: "+issue["payload"]["context"]["service_name"]+
                            "\nResource: "+issue["payload"]["context"]["resource_name"]
-		    }
-	    })
+		                }
+	            })
     # Now post the message to Slack using a webhook
     webhook_url=args["slack_webhook_url"]
     res=post_to_slack(data,webhook_url)

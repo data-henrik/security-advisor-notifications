@@ -34,7 +34,10 @@ After setting up everything to receive a notification and to post it as message 
 ![Edit notification channel](screenshots/SecurityAdvisor_EditChannel.png)
 
 #### Test notifications
-
+With all components set up, now you can test notifications.
+1. In the browser and the [**Notification channels** page](https://cloud.ibm.com/security-advisor#/notifications), click on the three dot menu in the line showing the created channel. Select **Test connection**. This initiates sending a small test notification to the configured webhook.
+2. Go to the Slack channel in which you deployed the app. Check for the message.
+3. In the browser, navigate to the [IBM Cloud Functions dashboard](https://cloud.ibm.com/functions/dashboard). Select the region and namespace in which you deployed the actions. Check for action activations. Click on the activations to see details such as content or errors.
 
 
 ## Security Advisor custom findings
