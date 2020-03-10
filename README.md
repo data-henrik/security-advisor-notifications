@@ -3,6 +3,8 @@ The IBM Cloud Security Advisor allows to [configure notification channels](https
 
 In this repository, we provide Python code for IBM Cloud Functions / Apache OpenWhisk actions. They can be used to implement such a mentioned webhook to receive a notification and post a message to a Slack channel.
 
+![Slack message about new security finding](/screenshots/SlackMessage_SecurityAlert.png)
+
 ## Set up webhook and notification channel
 In order to receive a notification from the security advisor, process it and post a message to Slack, you need to set up a couple components. This includes the Slack app to post messages, actions to receive a notification and post it to Slack as well as the notification channel in IBM Cloud Security Advisor. Follow the steps below.
 
