@@ -9,7 +9,7 @@ In order to receive a notification from the security advisor, process it and pos
 #### Prepare
 1. Download or clone this repository and change into the new directory.
 2. [Download public key](https://cloud.ibm.com/security-advisor#/notifications) for notification channels and save it to a file `public.key`. The public key is needed to verify intactness of notification payloads. The code in action [receiveNotification.py](/src/receiveNotification.py) will work without, but it is recommended to verify objects.
-3. [Create a Slack app](https://api.slack.com/start) and [use an incoming webhook](https://api.slack.com/messaging/webhooks) to send messages to Slack. When you [deploy the app to a Slack channel](https://api.slack.com/best-practices/blueprints/per-channel-webhooks), copy the displayed webhook. Save it to a file `webhook.uri`. It is needed when deploying the Cloud Functions actions.
+3. [Create a Slack app](https://api.slack.com/start) and [use an incoming webhook](https://api.slack.com/messaging/webhooks) to send messages to Slack. Thereafter, [deploy the app to a Slack channel](https://api.slack.com/best-practices/blueprints/per-channel-webhooks), copy the displayed webhook. Save it to a file `webhook.uri`. It is needed when deploying the Cloud Functions actions.
 
 
 #### Deploy
@@ -25,12 +25,16 @@ In order to receive a notification from the security advisor, process it and pos
    ```
 
 #### Create notification channel
-Configure notification channel:
-1. make sure extension .json for webhook
+After setting up everything to receive a notification and to post it as message to Slack, now it is time to create and configure a notification channel in IBM Cloud Security Advisor:
+1. In the browser, navigate to [**Notification channels** in the Security Advisor](https://cloud.ibm.com/security-advisor#/notifications).
+2. Click **Add notification channel**. Fill in name, description, etc. For webhook, use the URL obtained in step 3 above. Add the ending `.json` to that URL to indicate the runtime that JSON data will be processed.
+3. Click on **(Advanced) Select alert source and finding type** to filter events for which to receive notifications. You can pick from built-in and partner providers, the Configuration Advisor and [custom findings](https://github.com/data-henrik/security-advisor-findings).
+4. Once done, click **Save**. This concludes the setup.
 
-
+![Edit notification channel](screenshots/SecurityAdvisor_EditChannel.png)
 
 #### Test notifications
+
 
 
 ## Security Advisor custom findings
