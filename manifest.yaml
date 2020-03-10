@@ -1,0 +1,19 @@
+packages:
+    security_notifications:
+      version: 1.0
+      license: Apache-2.0
+      actions:
+        receiveNotification:
+          function: src/receiveNotification.py
+          runtime: python:3.7
+          inputs:
+            sa_public_key: $SA_PUBLIC_KEY
+        postToSlack:
+          function: src/postToSlack.py
+          runtime: python:3.7
+          inputs:
+            slack_webhook_url: $SLACK_WEBHOOK_URL
+      sequences:
+        handleNotification:
+          actions: receiveNotification, postToSlack
+          web: true
