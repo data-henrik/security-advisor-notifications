@@ -30,7 +30,7 @@ In order to receive a notification from the security advisor, process it and pos
 After setting up everything to receive a notification and to post it as message to Slack, now it is time to create and configure a notification channel in IBM Cloud Security Advisor:
 1. In the browser, navigate to [**Notification channels** in the Security Advisor](https://cloud.ibm.com/security-advisor#/notifications).
 2. Click **Add notification channel**. Fill in name, description, etc. For webhook, use the URL obtained in step 3 above. Add the ending `.json` to that URL to indicate the runtime that JSON data will be processed.
-3. Click on **(Advanced) Select alert source and finding type** to filter events for which to receive notifications. You can pick from built-in and partner providers, the Configuration Advisor and [custom findings](https://github.com/data-henrik/security-advisor-findings).
+3. Click on **(Advanced) Select alert source and finding type** to filter events for which to receive notifications. You can pick from built-in and partner providers, the Config Advisor and [custom findings](https://github.com/data-henrik/security-advisor-findings).
 4. Once done, click **Save**. This concludes the setup.
 
 ![Edit notification channel](screenshots/SecurityAdvisor_EditChannel.png)
@@ -40,6 +40,10 @@ With all components set up, now you can test notifications.
 1. In the browser and the [**Notification channels** page](https://cloud.ibm.com/security-advisor#/notifications), click on the three dot menu in the line showing the created channel. Select **Test connection**. This initiates sending a small test notification to the configured webhook.
 2. Go to the Slack channel in which you deployed the app. Check for the message.
 3. In the browser, navigate to the [IBM Cloud Functions dashboard](https://cloud.ibm.com/functions/dashboard). Select the region and namespace in which you deployed the actions. Check for action activations. Click on the activations to see details such as content or errors.
+
+Further tests could be 
+- to configure receiving Config Advisor notifications for the channel and then performing a [Config Advisor scan](https://cloud.ibm.com/security-advisor#/configadvisor).
+- to start a [manual run of a custom scan](https://github.com/data-henrik/security-advisor-findings/blob/master/INSTRUCTIONS.md#run-actions-manually) as disucced in our instructions for custom findings.
 
 
 ## Security Advisor custom findings
