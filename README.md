@@ -1,5 +1,5 @@
 # IBM Cloud Security Advisor Notifications
-The IBM Cloud Security Advisor allows to [configure notification channels](https://cloud.ibm.com/docs/services/security-advisor?topic=security-advisor-notifications). It means that whenever new issues are found (new findings), notifications are sent to qualifying channels. When setting up notification channels, you need to specify a webhook to receive the notification. You also configure for which security providers and for what severity level a notification should be posted to that channel.
+The IBM Cloud Security Advisor allows for centralized security management. It offers a unified dashboard that alerts security administrators for an IBM Cloud account of issues and helps them in resolving the issues. Within the IBM Cloud Security Advisor you can [configure notification channels](https://cloud.ibm.com/docs/services/security-advisor?topic=security-advisor-notifications). It means that whenever new issues are found (new findings), notifications are sent to qualifying channels. When setting up notification channels, you need to specify a webhook to receive the notification. You also configure for which security providers and for what severity level a notification should be posted to that channel.
 
 In this repository, we provide Python code for IBM Cloud Functions / Apache OpenWhisk actions. They can be used to implement such a mentioned webhook to receive a notification and post a message to a Slack channel.
 
@@ -13,8 +13,8 @@ In order to receive a notification from the security advisor, process it and pos
 
 #### Prepare
 1. You need the IBM Cloud CLI with the functions plugin installed. In order to install, follow [Getting started with tutorials](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-getting-started).
-2. Download or clone this repository and change into the new directory.
-3. [Download public key](https://cloud.ibm.com/security-advisor#/notifications) for notification channels and save it to a file `public.key`. The public key is needed to verify intactness of notification payloads. The code in action [receiveNotification.py](/src/receiveNotification.py) will work without, but it is recommended to verify objects.
+2. Download or clone this repository and change into the new directory **security-advisor-notifications**.
+3. [Download public key](https://cloud.ibm.com/security-advisor#/notifications) for notification channels and save it to a file `public.key` in the directory **security-advisor-notifications**. The public key is needed to verify intactness of notification payloads. The code in action [receiveNotification.py](/src/receiveNotification.py) will work without, but it is recommended to verify objects.
 4. [Create a Slack app](https://api.slack.com/start) and [use an incoming webhook](https://api.slack.com/messaging/webhooks) to send messages to Slack. Thereafter, [deploy the app to a Slack channel](https://api.slack.com/best-practices/blueprints/per-channel-webhooks), copy the displayed webhook. Save it to a file `webhook.uri`. It is needed when deploying the Cloud Functions actions.
 
 
@@ -41,7 +41,7 @@ In order to receive a notification from the security advisor, process it and pos
 #### Create notification channel
 After setting up everything to receive a notification and to post it as message to Slack, now it is time to create and configure a notification channel in IBM Cloud Security Advisor:
 1. In the browser, navigate to [**Notification channels** in the Security Advisor](https://cloud.ibm.com/security-advisor#/notifications).
-2. Click **Add notification channel**. Fill in name, description, etc. For webhook, use the URL obtained in step 3 above. Add the ending `.json` to that URL to indicate the runtime that JSON data will be processed.
+2. Click **Add notification channel**. Fill in name, description, etc. For webhook, use the URL obtained in step 3 above. Add the ending `.json` to that URL. [It sets the content type to JSON](https://cloud.ibm.com/docs/openwhisk?topic=cloud-functions-actions_web#actions_web_extra), i.e., indicating Cloud Functions that JSON data will be sent.
 3. Click on **(Advanced) Select alert source and finding type** to filter events for which to receive notifications. You can pick from built-in and partner providers, the Config Advisor and [custom findings](https://github.com/data-henrik/security-advisor-findings).
 4. Once done, click **Save**. This concludes the setup.
 
