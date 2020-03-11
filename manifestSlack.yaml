@@ -14,6 +14,6 @@ packages:
           inputs:
             slack_webhook_url: $SLACK_WEBHOOK_URL
       sequences:
-        handleNotification:
+        notificationToSlack:
           actions: receiveNotification, postToSlack
           web: true

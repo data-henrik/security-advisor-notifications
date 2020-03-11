@@ -1,0 +1,14 @@
+{
+"KEY":"your API key",
+"SECRET":"your API secret",
+"FROM": {
+    "Email": "security@example.com",
+    "Name": "data_henrik"
+        },
+"TO": [
+        {
+            "Email": "receiver@example.com",
+            "Name": "SecOps Team"
+        }
+    ]
+}
