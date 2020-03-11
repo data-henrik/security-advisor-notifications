@@ -6,8 +6,7 @@
 import json,os,sys
 import requests
 
-# Post a message to a specific Slack channel via webhook (url).
-# The message is formatted in the blocks notation
+# Send an email using Mailjet
 def sendEmail(message,mj_key,mj_secret):
     url     = "https://api.mailjet.com/v3.1/send"
     headers = { "Content-Type" : "application/json" }
@@ -37,9 +36,9 @@ def main(args):
                            "\nService: " + issue["payload"]["context"]["service_name"] +
                            "\nResource: " + issue["payload"]["context"]["resource_name"])
 
-	# Set TextPart
+	# Set TextPart for the email. We are not using HTML
 	email["Messages"][0]["TextPart"]=emailbody
-    # Now send the email
+    # Now, send the email
 	res=sendEmail(email,mj_config["KEY"],mj_config["SECRET"])
 	return {"result": res}
 
