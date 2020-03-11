@@ -19,7 +19,7 @@ In order to receive a notification from the security advisor, process it and pos
 4. **To use Slack**:   
    [Create a Slack app](https://api.slack.com/start) and [use an incoming webhook](https://api.slack.com/messaging/webhooks) to send messages to Slack. Thereafter, [deploy the app to a Slack channel](https://api.slack.com/best-practices/blueprints/per-channel-webhooks), copy the displayed webhook. Save it to a file `webhook.uri`. It is needed when deploying the Cloud Functions actions.
 
-   **To send emails via Mailjet**:
+   **To send emails via Mailjet**:   
    Sign up for a [Mailjet](https://www.mailjet.com/) account and obtain the API key and secret. Then, in the directory **security-advisor-notifications**, copy over `mailjet.sample.json` into a new file `mailjet.json`. Edit the values for API key and secret and replace the **Email** value for **From** to the verified email address. This is needed to send out emails.
 
 
