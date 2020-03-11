@@ -3,25 +3,37 @@ The IBM Cloud Security Advisor allows to [configure notification channels](https
 
 In this repository, we provide Python code for IBM Cloud Functions / Apache OpenWhisk actions. They can be used to implement such a mentioned webhook to receive a notification and post a message to a Slack channel.
 
-![Slack message about new security finding](/screenshots/SlackMessage_SecurityAlert.png)
+![Architecture](/screenshots/SecAdv_Notifications_Architecture.png)
+
+1. IBM Cloud Security Advisor sends a notification to a webhook implemented as IBM Cloud Functions action.
+2. The action processes the notification, composes a message and posts it to a Slack channel.
 
 ## Set up webhook and notification channel
 In order to receive a notification from the security advisor, process it and post a message to Slack, you need to set up a couple components. This includes the Slack app to post messages, actions to receive a notification and post it to Slack as well as the notification channel in IBM Cloud Security Advisor. Follow the steps below.
 
 #### Prepare
-1. Download or clone this repository and change into the new directory.
-2. [Download public key](https://cloud.ibm.com/security-advisor#/notifications) for notification channels and save it to a file `public.key`. The public key is needed to verify intactness of notification payloads. The code in action [receiveNotification.py](/src/receiveNotification.py) will work without, but it is recommended to verify objects.
-3. [Create a Slack app](https://api.slack.com/start) and [use an incoming webhook](https://api.slack.com/messaging/webhooks) to send messages to Slack. Thereafter, [deploy the app to a Slack channel](https://api.slack.com/best-practices/blueprints/per-channel-webhooks), copy the displayed webhook. Save it to a file `webhook.uri`. It is needed when deploying the Cloud Functions actions.
+1. You need the IBM Cloud CLI with the functions plugin installed. In order to install, follow [Getting started with tutorials](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-getting-started).
+2. Download or clone this repository and change into the new directory.
+3. [Download public key](https://cloud.ibm.com/security-advisor#/notifications) for notification channels and save it to a file `public.key`. The public key is needed to verify intactness of notification payloads. The code in action [receiveNotification.py](/src/receiveNotification.py) will work without, but it is recommended to verify objects.
+4. [Create a Slack app](https://api.slack.com/start) and [use an incoming webhook](https://api.slack.com/messaging/webhooks) to send messages to Slack. Thereafter, [deploy the app to a Slack channel](https://api.slack.com/best-practices/blueprints/per-channel-webhooks), copy the displayed webhook. Save it to a file `webhook.uri`. It is needed when deploying the Cloud Functions actions.
 
 
 #### Deploy
 1. Make sure you are logged in to IBM Cloud on the command line and have targeted the right environment. You can use the command `ibmcloud target` to verify.
-2. In the same terminal, execute the following command:
+2. If not present, create an IAM namespace **SecurityFindings**:
+   ```
+   ibmcloud fn namespace create SecurityFindings
+   ```
+3. Set the newly created namespace as default for the next commands.
+   ```
+   ibmcloud fn property set --namespace SecurityFindings
+   ```
+4. In the same terminal, execute the following command:
    ```
    SA_PUBLIC_KEY=$(cat public.key) SLACK_WEBHOOK_URL=$(cat webhook.uri) ibmcloud fn deploy
    ```
    It sets two environment variables based on the file content from the prepare phase above. The variables are used to bind action parameters. See the file [manifest.yaml](manifest.yaml) and the related action code for details.
-3. Next, you need to obtain the URL for web-enabled action. It serves as webhook for the notification channel. Execute the following:
+5. Next, you need to obtain the URL for web-enabled action. It serves as webhook for the notification channel. Execute the following:
    ```
    ibmcloud fn action get security_notifications/handleNotification --url
    ```
@@ -44,6 +56,9 @@ With all components set up, now you can test notifications.
 Further tests could be 
 - to configure receiving Config Advisor notifications for the channel and then performing a [Config Advisor scan](https://cloud.ibm.com/security-advisor#/configadvisor).
 - to start a [manual run of a custom scan](https://github.com/data-henrik/security-advisor-findings/blob/master/INSTRUCTIONS.md#run-actions-manually) as disucced in our instructions for custom findings.
+
+
+![Slack message about new security finding](/screenshots/SlackMessage_SecurityAlert.png)
 
 
 ## Security Advisor custom findings
