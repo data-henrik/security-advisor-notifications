@@ -6,7 +6,7 @@ In this repository, we provide Python code for IBM Cloud Functions / Apache Open
 ![Architecture](/screenshots/SecAdv_Notifications_Architecture.png)
 
 1. IBM Cloud Security Advisor sends a notification to a webhook implemented as IBM Cloud Functions action.
-2. The action processes the notification, composes a message and posts it to a Slack channel.
+2. The action processes the notification, composes a message and posts it to a Slack channel or sends it as email.
 
 ## Set up webhook and notification channel
 In order to receive a notification from the security advisor, process it and post a message to Slack, you need to set up a couple components. This includes the Slack app to post messages, actions to receive a notification and post it to Slack as well as the notification channel in IBM Cloud Security Advisor. Follow the steps below.
