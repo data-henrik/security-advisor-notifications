@@ -71,7 +71,12 @@ After setting up everything to receive a notification and to post it as message 
 3. Click on **(Advanced) Select alert source and finding type** to filter events for which to receive notifications. You can pick from built-in and partner providers, the Config Advisor and [custom findings](https://github.com/data-henrik/security-advisor-findings).
 4. Once done, click **Save**. This concludes the setup.
 
+Basic channel configuration:   
 ![Edit notification channel](screenshots/SecurityAdvisor_EditChannel.png)
+
+
+Advanced options to select source and finding type:   
+![Advanced options to select source and finding type](/screenshots/SecurityAdvisor_Filter.png)
 
 #### Test notifications
 With all components set up, now you can test notifications.
@@ -81,7 +86,7 @@ With all components set up, now you can test notifications.
 
 Further tests could be 
 - to configure receiving Config Advisor notifications for the channel and then performing a [Config Advisor scan](https://cloud.ibm.com/security-advisor#/configadvisor).
-- to start a [manual run of a custom scan](https://github.com/data-henrik/security-advisor-findings/blob/master/INSTRUCTIONS.md#run-actions-manually) as disucced in our instructions for custom findings.
+- to start a [manual run of a custom scan](https://github.com/data-henrik/security-advisor-findings/blob/master/INSTRUCTIONS.md#run-actions-manually) as discussed in our instructions for custom findings.
 
 Sample message in Slack:
 
