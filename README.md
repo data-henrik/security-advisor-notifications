@@ -71,6 +71,7 @@ In order to receive a notification from the security advisor, process it and pos
    ibmcloud fn action get security_notifications/notificationToEmail --url
    ```
 </details>
+<details>
 <summary>**Email via SMTP**:</summary>
 
 4. In the same terminal, execute the following command:   
