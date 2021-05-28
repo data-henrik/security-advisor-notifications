@@ -1,0 +1,9 @@
+{
+    "host": "smtp.example.com",
+    "port" : 465,
+    "id": "security@example.com",
+    "sender": "Security <security@example.com>",
+    "password": "my-password",
+    "receiver": "alerts@example.com",
+    "subject": "Urgent: New security findings"
+}

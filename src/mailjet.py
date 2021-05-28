@@ -38,6 +38,9 @@ def main(args):
                          "\nService: " + issue["payload"]["context"]["service_name"] +
                          "\nResource: " + issue["payload"]["context"]["resource_name"])
 
+    # if the body is empty, indicate so for the email not being rejected due to empty body
+    if emailbody == '':
+        emailbody="empty body - no alert content"
     # Set TextPart for the email. We are not using HTML
     email["Messages"][0]["TextPart"] = emailbody
     # Now, send the email
