@@ -1,0 +1,22 @@
+packages:
+    security_notifications:
+      version: 1.0
+      license: Apache-2.0
+      actions:
+        receiveNotification:
+          function: src/receiveNotification.py
+          runtime: python:3.7
+          inputs:
+            sa_public_key: $SA_PUBLIC_KEY
+        prepForSMTP:
+          function: src/prepForSMTP.py
+          runtime: python:3.7
+          inputs:
+            smtp_config: $SMTP_CONFIG
+        sendEmail:
+          function: src/smtp.js
+          runtime: nodejs:12
+      sequences:
+        notificationToEmailBySMTP:
+          actions: receiveNotification, prepForSMTP, sendEmail
+          web: true
