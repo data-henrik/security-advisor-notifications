@@ -1,7 +1,7 @@
 # IBM Cloud Security Advisor Notifications
 The IBM Cloud Security Advisor allows for centralized security management. It offers a unified dashboard that alerts security administrators for an IBM Cloud account of issues and helps them in resolving the issues. Within the IBM Cloud Security Advisor you can [configure notification channels](https://cloud.ibm.com/docs/services/security-advisor?topic=security-advisor-notifications). It means that whenever new issues are found (new findings), notifications are sent to qualifying channels. When setting up notification channels, you need to specify a webhook to receive the notification. You also configure for which security providers and for what severity level a notification should be posted to that channel.
 
-In this repository, we provide Python code for IBM Cloud Functions / Apache OpenWhisk actions. They can be used to implement such a mentioned webhook to receive a notification and post a message to a Slack channel or send it as email. The instructions and code are provided for the email service Mailjet, but other services like SendGrid, sendinblue or Postmark all are very similar and easy to implement.
+In this repository, we provide Python code for IBM Cloud Functions / Apache OpenWhisk actions. They can be used to implement such a mentioned webhook to receive a notification and post a message to a Slack channel or send it as email. The instructions and code are provided for the email service Mailjet, but other services like SendGrid, sendinblue or Postmark all are very similar and easy to implement. Additionally, sample code for sending emails via regular SMTP is included.
 
 ![Architecture](/screenshots/SecAdv_Notifications_Architecture.png)
 
@@ -28,6 +28,8 @@ In order to receive a notification from the security advisor, process it and pos
    **To send emails via Mailjet**:   
    Sign up for a [Mailjet](https://www.mailjet.com/) account and obtain the API key and secret. Then, in the directory **security-advisor-notifications**, copy over `mailjet.sample.json` into a new file `mailjet.json`. Edit the values for API key and secret and replace the **Email** value for **From** to the verified email address. This is needed to send out emails.
 
+   **To send emails using SMTP**:   
+   Use an SMTP server to send the outgoing emails. To configure details, copy over  `smtp_config.sample.json` into a new file `smtp_config.json`. Edit the values for your service.
 
 
 #### Deploy
@@ -60,15 +62,31 @@ In order to receive a notification from the security advisor, process it and pos
 4. In the same terminal, execute the following command:   
 
    ```
-   SA_PUBLIC_KEY=$(cat public.key) MAILJET_CONFIG=$(cat mailjet.json) ibmcloud fn deploy -m manifestEmail.yaml
+   SA_PUBLIC_KEY=$(cat public.key) MAILJET_CONFIG=$(cat mailjet.json) ibmcloud fn deploy -m manifestEmailMailjet.yaml
    ```
 
-   It sets two environment variables based on the file content from the prepare phase above. The variables are used to bind action parameters. See the files [manifestEmail.yaml](manifestEmail.yaml) and the related action code for details.
+   It sets two environment variables based on the file content from the prepare phase above. The variables are used to bind action parameters. See the files [manifestEmailMailjet.yaml](manifestEmailMailjet.yaml) and the related action code for details.
 5. Next, you need to obtain the URL for web-enabled action. It serves as webhook for the notification channel. Execute the following:
    ```
    ibmcloud fn action get security_notifications/notificationToEmail --url
    ```
 </details>
+<details>
+<summary>**Email via SMTP**:</summary>
+
+4. In the same terminal, execute the following command:   
+
+   ```
+   SA_PUBLIC_KEY=$(cat public.key) SMTP_CONFIG=$(cat smtp_config.json) ibmcloud fn deploy -m manifestEmailSMTP.yaml
+   ```
+
+   It sets two environment variables based on the file content from the prepare phase above. The variables are used to bind action parameters. See the files [manifestEmailSMTP.yaml](manifestEmailSMTP.yaml) and the related action code for details.
+5. Next, you need to obtain the URL for web-enabled action. It serves as webhook for the notification channel. Execute the following:
+   ```
+   ibmcloud fn action get security_notifications/notificationToEmailbySMTP --url
+   ```
+</details>
+
 
 #### Create notification channel
 After setting up everything to receive a notification and to post it as message to Slack or send it by email, now it is time to create and configure a notification channel in IBM Cloud Security Advisor:

@@ -1,3 +1,4 @@
 public.key
 webhook.uri
 mailjet.json
+smtp_config.json
