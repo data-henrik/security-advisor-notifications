@@ -1,5 +1,5 @@
 # IBM Cloud Security Advisor Notifications
-The IBM Cloud Security Advisor allows for centralized security management. It offers a unified dashboard that alerts security administrators for an IBM Cloud account of issues and helps them in resolving the issues. Within the IBM Cloud Security Advisor you can [configure notification channels](https://cloud.ibm.com/docs/services/security-advisor?topic=security-advisor-notifications). It means that whenever new issues are found (new findings), notifications are sent to qualifying channels. When setting up notification channels, you need to specify a webhook to receive the notification. You also configure for which security providers and for what severity level a notification should be posted to that channel.
+The IBM Cloud Security Advisor, now part of the [IBM Cloud Security & Compliance Center](https://cloud.ibm.com/security-compliance/overview), allows for centralized security management. It offers a unified dashboard that alerts security administrators for an IBM Cloud account of issues and helps them in resolving the issues. Within the IBM Cloud Security Advisor you can [configure notification channels](https://cloud.ibm.com/docs/services/security-advisor?topic=security-advisor-notifications). It means that whenever new issues are found (new findings), notifications are sent to qualifying channels. When setting up notification channels, you need to specify a webhook to receive the notification. You also configure for which security providers and for what severity level a notification should be posted to that channel.
 
 In this repository, we provide Python code for IBM Cloud Functions / Apache OpenWhisk actions. They can be used to implement such a mentioned webhook to receive a notification and post a message to a Slack channel or send it as email. The instructions and code are provided for the email service Mailjet, but other services like SendGrid, sendinblue or Postmark all are very similar and easy to implement. Additionally, sample code for sending emails via regular SMTP is included.
 
@@ -89,9 +89,11 @@ In order to receive a notification from the security advisor, process it and pos
 
 
 #### Create notification channel
+Note that the Security Advisor has been integrated into the [IBM Cloud Security & Compliance Center](https://cloud.ibm.com/security-compliance/overview), see "Gain insight".
+
 After setting up everything to receive a notification and to post it as message to Slack or send it by email, now it is time to create and configure a notification channel in IBM Cloud Security Advisor:
-1. In the browser, navigate to [**Notification channels** in the Security Advisor](https://cloud.ibm.com/security-advisor#/notifications).
-2. Click **Add notification channel**. Fill in name, description, etc. For webhook, use the URL obtained in step 5 above. Add the ending `.json` to that URL. [It sets the content type to JSON](https://cloud.ibm.com/docs/openwhisk?topic=cloud-functions-actions_web#actions_web_extra), i.e., indicating Cloud Functions that JSON data will be sent.
+1. In the browser, navigate to [**Alerts** under **Configure** in the "Gain insight" section](https://cloud.ibm.com/security-compliance/alerts).
+2. Click **Create** to create a new channel. Fill in name, description, etc. For webhook, use the URL obtained in step 5 above. Add the ending `.json` to that URL. [It sets the content type to JSON](https://cloud.ibm.com/docs/openwhisk?topic=cloud-functions-actions_web#actions_web_extra), i.e., indicating Cloud Functions that JSON data will be sent.
 3. Click on **(Advanced) Select alert source and finding type** to filter events for which to receive notifications. You can pick from built-in and partner providers, the Config Advisor and [custom findings](https://github.com/data-henrik/security-advisor-findings).
 4. Once done, click **Save**. This concludes the setup.
 
@@ -104,13 +106,10 @@ Advanced options to select source and finding type:
 
 #### Test notifications
 With all components set up, now you can test notifications.
-1. In the browser and the [**Notification channels** page](https://cloud.ibm.com/security-advisor#/notifications), click on the three dot menu in the line showing the created channel. Select **Test connection**. This initiates sending a small test notification to the configured webhook.
+1. In the browser and the [**Alerts** page](https://cloud.ibm.com/security-compliance/alerts), click on the three dot menu in the line showing the created channel. Select **Test connection**. This initiates sending a small test notification to the configured webhook.
 2. Either go to the Slack channel in which you deployed the app or to the inbox of the receiver email account. Check for the message.
 3. In the browser, navigate to the [IBM Cloud Functions dashboard](https://cloud.ibm.com/functions/dashboard). Select the region and namespace in which you deployed the actions. Check for action activations. Click on the activations to see details such as content or errors.
 
-Further tests could be 
-- to configure receiving Config Advisor notifications for the channel and then performing a [Config Advisor scan](https://cloud.ibm.com/security-advisor#/configadvisor).
-- to start a [manual run of a custom scan](https://github.com/data-henrik/security-advisor-findings/blob/master/INSTRUCTIONS.md#run-actions-manually) as discussed in our instructions for custom findings.
 
 Sample message in Slack:
 
