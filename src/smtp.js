@@ -6,11 +6,13 @@
 // Use a payload similar to this to send the message.
 /* 
     const params = {
-        "config": {
+        "server": {
             "host": "smtp.example.com",
             "port" : 465,
             "id": "your-sender-id@example.com",
             "password": "strong-password"
+        },
+        "email": {
             "sender": "henrik@example.com",
             "receiver": "data_henrik@example.com",
             "subject": "This is a test",
@@ -44,23 +46,23 @@ function main(params) {
 function sendEmail(params, callback) {
     // SMTP server connection
     let transporter = nodemailer.createTransport({
-        host: params.config.host,
-        port: params.config.port,
+        host: params.server.host,
+        port: params.server.port,
         secure: true,
         auth: {
-            user: params.config.id,
-            pass: params.config.password
+            user: params.server.id,
+            pass: params.server.password
         }
     });
 
     // email content
     // both text and html values are optional
     let emailOptions = {
-        from: params.config.sender,
-        to: params.config.receiver,
-        subject: params.config.subject,
-        text: (params.config.text || ''),
-        html: (params.config.html || '')
+        from: params.email.sender,
+        to: params.email.receiver,
+        subject: params.email.subject,
+        text: (params.email.text || ''),
+        html: (params.email.html || '')
     };
 
     // send the content to the SMTP server
