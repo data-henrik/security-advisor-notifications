@@ -24,10 +24,10 @@ def main(args):
                          "\nResource: " + issue["payload"]["context"]["resource_name"])
 
     # Set TextPart for the email. We are not using HTML
-    config['text'] = emailbody
+    config["email"]['text'] = emailbody
     # Now, send the email by passing the configuration on to the
     # sending action
-    return {"config":config}
+    return {"server":config["server"], "email": config["email"]}
 
 
 if __name__ == "__main__":
